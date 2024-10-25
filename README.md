@@ -72,3 +72,6 @@ Yu Ushio
 
 Pythonで「ふもとっぱら」キャンプ場へ行き放題Botをつくってみた
 https://note.com/youhei0917/n/n1d7c88b1411f
+
+GitHubを使って（git pushで）、Netlifyでサイトを公開する
+https://qiita.com/21HideK/items/584419b55e1b1941ee24
