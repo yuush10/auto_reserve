@@ -43,7 +43,7 @@ WEBSITE_URL=website_url_you_need_reservation_for
 ## 使用方法
 スクリプトを実行します：
 ```
-python main.py
+python notification.py
 ```
 ## LINE Messaging API設定
 1. [LINE Developers](https://developers.line.biz/)でアカウントを作成し、新しいチャネルを作成します。
