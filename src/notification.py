@@ -14,6 +14,7 @@ from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 from linebot.v3 import WebhookHandler
 from linebot.v3.messaging import Configuration, ApiClient, MessagingApi, ApiException, TextMessage, PushMessageRequest
+from flask import jsonify, request
 
 load_dotenv()
 
@@ -143,6 +144,7 @@ def main():
     
     print(message)
     send_line_message(message)
+    return jsonify({"message": "処理が完了しました。"})
 
 if __name__ == "__main__":
     main()
