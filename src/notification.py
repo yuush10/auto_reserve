@@ -18,6 +18,7 @@ load_dotenv()
 
 CHANNEL_ACCESS_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN")
 USER_ID = os.getenv("LINE_USER_ID")
+URL = os.getenv("WEBSITE_URL")
 
 def send_line_message(message):
     configuration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)
@@ -42,15 +43,14 @@ def is_day_before_holiday(date):
     return weekday == 5 or (weekday == 6 and jpholiday.is_holiday(next_day))
 
 def check_availability():
-    url = "https://www3.yadosys.com/reserve/ja/room/calendar/147/ehejfcebejdheigbgihfgpdn/all"
 
     options = Options()
-    options.add_argument("--headless")
+    #options.add_argument("--headless=new")
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
 
     try:
-        driver.get(url)
+        driver.get(URL)
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, "calendarTable"))
         )
