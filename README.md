@@ -21,33 +21,29 @@ This is a webhook project that enables notifications to be sent to Line when a n
 ```
 git clone https://github.com/yourusername/hottarakashi-camp-checker.git
 cd hottarakashi-camp-checker
-text
 ```
 
 2. 仮想環境を作成し、有効化します：
 ```
 python -m venv venv
-source venv/bin/activate # Linuxの場合
+source .venv/bin/activate # Linuxの場合
 venv\Scripts\activate # Windowsの場合
-text
 ```
 
 3. 必要なパッケージをインストールします：
 ```
 pip install -r requirements.txt
-text
 ```
 4. `.env`ファイルを作成し、以下の環境変数を設定します：
 ```
 CHANNEL_ACCESS_TOKEN=your_line_channel_access_token
 USER_ID=your_line_user_id
-text
+WEBSITE_URL=website_url_you_need_reservation_for
 ```
 ## 使用方法
 スクリプトを実行します：
 ```
 python main.py
-text
 ```
 ## LINE Messaging API設定
 1. [LINE Developers](https://developers.line.biz/)でアカウントを作成し、新しいチャネルを作成します。
@@ -56,7 +52,7 @@ text
 4. これらの情報を`.env`ファイルに設定します。
 
 ## 注意事項
-- このスクリプトは教育目的で作成されています。使用する際は、対象ウェブサイトの利用規約を確認してください。
+- このスクリプトを使用する際は、対象ウェブサイトの利用規約を確認してください。
 - 過度な頻度でのアクセスは避けてください。
 
 ## ライセンス
@@ -72,6 +68,3 @@ Yu Ushio
 
 Pythonで「ふもとっぱら」キャンプ場へ行き放題Botをつくってみた
 https://note.com/youhei0917/n/n1d7c88b1411f
-
-GitHubを使って（git pushで）、Netlifyでサイトを公開する
-https://qiita.com/21HideK/items/584419b55e1b1941ee24
