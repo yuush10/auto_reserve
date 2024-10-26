@@ -10,7 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager #Update ChromeDriver
 from linebot import LineBotApi
 from linebot.models import TextSendMessage
 
@@ -34,7 +34,7 @@ def check_availability():
     url = "https://www3.yadosys.com/reserve/ja/room/calendar/147/ehejfcebejdheigbgihfgpdn/all"
 
     options = Options()
-    options.add_argument("--headless")
+    options.add_argument("--headless") #Open browser by commenting this line out
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
 
