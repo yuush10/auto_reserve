@@ -10,20 +10,31 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager #Update ChromeDriver
-from linebot import LineBotApi
-from linebot.models import TextSendMessage
+from webdriver_manager.chrome import ChromeDriverManager
+from linebot.v3 import WebhookHandler
+from linebot.v3.messaging import Configuration, ApiClient, MessagingApi, ApiException, TextMessage, PushMessageRequest
 
-# .envファイルから環境変数を読み込む
 load_dotenv()
 
-# LINE Messaging API設定
 CHANNEL_ACCESS_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN")
 USER_ID = os.getenv("LINE_USER_ID")
 
 def send_line_message(message):
-    line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
-    line_bot_api.push_message(USER_ID, TextSendMessage(text=message))
+    configuration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)
+
+    with ApiClient(configuration) as api_client:
+        line_bot_api = MessagingApi(api_client)
+        try:
+            line_bot_api.push_message(
+                PushMessageRequest(
+                    to=USER_ID,
+                    messages=[TextMessage(text=message)]
+                )
+            )
+            print("LINE通知を正常に送信しました。")
+        except ApiException as e:
+            print(f"LINE通知の送信に失敗しました: {e}")
+            print(f"エラーの詳細: {e.body}")
 
 def is_day_before_holiday(date):
     weekday = date.weekday()
@@ -34,7 +45,7 @@ def check_availability():
     url = "https://www3.yadosys.com/reserve/ja/room/calendar/147/ehejfcebejdheigbgihfgpdn/all"
 
     options = Options()
-    options.add_argument("--headless") #Open browser by commenting this line out
+    options.add_argument("--headless")
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
 
@@ -51,7 +62,7 @@ def check_availability():
 
         calendar_table = soup.find("table", class_="calendarTable")
         if calendar_table:
-            rows = calendar_table.find_all("tr")[1:]  # ヘッダー行をスキップ
+            rows = calendar_table.find_all("tr")[1:]
             for row in rows:
                 cells = row.find_all("td")
                 for cell in cells:
@@ -64,7 +75,7 @@ def check_availability():
 
         return available_dates
     except Exception as e:
-        print(f"エラーが発生しました: {e}")
+        print(f"An error occurred: {e}")
         return []
     finally:
         driver.quit()
@@ -73,9 +84,10 @@ def main():
     available_dates = check_availability()
     if available_dates:
         message = "ほったらかしキャンプ場で以下の日に空きが出ました:\n" + "\n".join(available_dates)
-        send_line_message(message)
     else:
-        print("現在、空きはありません。")
+        message = "現在、ほったらかしキャンプ場に空き日時はありません。"
+    
+    send_line_message(message)
 
 if __name__ == "__main__":
     main()
